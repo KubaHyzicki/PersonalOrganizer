@@ -3,6 +3,6 @@ Flask-Login==0.2.6
 Flask-SQLAlchemy==1.0
 Flask-WTF==0.8.4
 SQLAlchemy==0.8.2
-requests==1.2.3
+requests==2.20.0
 gunicorn==17.5
 ipdb==0.8

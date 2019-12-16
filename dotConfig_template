@@ -1,0 +1,6 @@
+export FLASK_APP='main.py'
+export DB_USER='admin'		#your database user
+export DB_PASS='admin'		#your database password
+export HOST='127.0.0.1'
+export PORT='5000'
+export DB_NAME='personalOrganizer'

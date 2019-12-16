@@ -1,11 +1,8 @@
 import os
 
 class Config(object):
-    appDir = os.path.abspath(os.path.dirname(__file__))
-
-    SECRET_KEY = 'someRandomCakeKey'
-    DATABASE='personalOrganizer.db'
-    DATABASE_PATH = os.path.join(appDir, DATABASE)
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE_PATH
-
+    HOST = os.getenv('HOST')
+    DB_USER = os.getenv('DB_USER')
+    DB_PASS = os.getenv('DB_PASS')
+    DB_NAME = os.getenv('DB_NAME')
     DEBUG = True

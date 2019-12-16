@@ -1,48 +1,31 @@
-from flask import Flask, request, render_template, send_from_directory
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, current_user
-from .models import *
+#!/usr/bin/python3
+
+from flask import Flask
+import pymysql
 import os
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object('config.Config')
 
-login_manager = LoginManager(app)
+class Database:
+    def __init__(self):
+        host = app.config['HOST']
+        print
+        user = app.config['DB_USER']
+        password = app.config['DB_PASS']
+        db = app.config['DB_NAME']
+        self.con = pymysql.connect(host=host, user=user, password=password, db=db, cursorclass=pymysql.cursors.
+                                   DictCursor)
+        self.cur = self.con.cursor()
+    def get_users(self):
+        self.cur.execute("SELECT * FROM User")
+        result = self.cur.fetchall()
+        return result
 
-db = SQLAlchemy(app)
+db = Database()
 
-#login_manager.login_view = "users.login_view"
-
-def addUser(args):
-    userRecord = User(
-            ID_user='',         #to ma chyba autonumerację
-            lastName=args.lastName,
-            email=args.email,
-            password=args.password,
-            firstName=args.firstName,
-            permissions=args.permissions)
-    db.session.add(userRecord)
-    db.session.commit()
-
-def listUsers():
-    users = User.query.all()
-    print(users)
-
-def getUser(args):
-    if args.ID_user:
-        user = User.query.get(args.ID_user)
-    elif args.email:
-        user = User.query.filter(User.email==args.email)
-
-def removeUser(ID_user):
-    User.query.filter(User.ID_user == ID_user).\
-        delete()
-    
-
-print('ciastko')
-listUsers()             #no i wywala się, bo nie ma czegoś takiego jak personalOrganizer.db
-print('ciastko')
-addUser({'lastName':'Ciastek','email':'ciastek@gmail.com','password':'admin','firstName':'Pan','permissions':'client'})
-print('ciastko')
-listUsers()
-print('ciastko')
+@app.route('/')
+def default():
+    db = Database()
+    users = db.get_users()
+    return users

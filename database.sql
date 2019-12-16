@@ -47,7 +47,8 @@ CREATE TABLE Alarm(
   volume_level INT,
   active BOOLEAN,
   whenAlarm date,
-  alarmMethod VARCHAR(255)
+  alarmMethod VARCHAR(255),
+  ID_event INT
 );
 
 CREATE TABLE AlarmType(

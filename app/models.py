@@ -14,7 +14,12 @@ class User(db.Model):
     permissions = db.Column(db.String(255), nullable=False)
 
     def __repr__(self):
-        return "<User {}>".format(self.email)
+        return "<User {}:{}>".format(self.ID_user,self.email)
+
+    def update(self, data):
+        for key in data:
+            if data[key] and key != "ID_user":
+                setattr(self, key, data[key])
     
     def set_password(self, password):
         self.password = generate_password_hash(password, method='sha256')
@@ -35,6 +40,11 @@ class Event(db.Model):
     repeatable = db.Column(db.String(255), nullable=False)
     ID_user = db.Column(db.Integer, db.ForeignKey('User.ID_user'), nullable=False)
 
+    def update(self, data):
+        for key in data:
+            if data[key] and key != "ID_event":
+                setattr(self, key, data[key])
+
     def __repr__(self):
         return "<Event {}>".format(self.name)
 
@@ -47,6 +57,11 @@ class Category(db.Model):
     description = db.Column(db.String(255), nullable=False)
     weight = db.Column(db.Integer, nullable=False)
     colour = db.Column(db.Integer, nullable=False)
+
+    def update(self, data):
+        for key in data:
+            if data[key] and key != "ID_categ":
+                setattr(self, key, data[key])
 
     def __repr__(self):
         return "<Category {}>".format(self.name)
@@ -62,6 +77,11 @@ class Alarm(db.Model):
     alarmMethod = db.Column(db.String(255), db.ForeignKey('AlarmType.alarmMethod'), nullable=False)
     ID_event = db.Column(db.Integer, db.ForeignKey('Event.ID_event'), nullable=False)
 
+    def update(self, data):
+        for key in data:
+            if data[key] and key != "ID_alarm":
+                setattr(self, key, data[key])
+
     def __repr__(self):
         return "<Alarm {} (id={})>".format(self.whenAlarm, self.ID_alarm)
 
@@ -70,6 +90,10 @@ class AlarmType(db.Model):
     __tablename__='AlarmType'
 
     alarmMethod = db.Column(db.String(255), primary_key=True, nullable=False)
+
+    def update(self, data):
+        for key in data:
+            setattr(self, key, data[key])
 
     def __repr__(self):
         return "<AlarmType {}>".format(self.alarmMethod)

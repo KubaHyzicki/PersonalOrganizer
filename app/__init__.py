@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
 from flask import Flask
-import pymysql
-import os
+from flask_sqlalchemy import SQLAlchemy
+from .models import *
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
@@ -13,35 +13,43 @@ class Database:
         print
         user = app.config['DB_USER']
         password = app.config['DB_PASS']
-        db = app.config['DB_NAME']
-        self.con = pymysql.connect(host=host, user=user, password=password, db=db, cursorclass=pymysql.cursors.
-                                   DictCursor)
-        self.cur = self.con.cursor()
+        db_name = app.config['DB_NAME']
+        self.db = SQLAlchemy()
+        self.db.init_app(app)
 
-    def get_users(self):
-        self.cur.execute("SELECT * FROM User")
-        result = self.cur.fetchall()
-        print("ciastko {}".format(result))
-        return result
+    def getAllUsers(self):
+        users = User.query.all()
+        return users
 
-    def add_user(self):
-        query="INSERT INTO User (lastname,email,password,firstName,permissions) VALUES ('Ciastek','ciastek@gmail.com','admin','Pan','client')"
-        self.cur.execute(query)
-        self.con.commit()
+    def getUser(self,args):
+        if args.ID_user:
+            user = User.query.get(args.ID_user)
+        elif args.email:
+            user = User.query.filter(User.email==args.email)
 
-#db = Database()
+    def addUser(self,args):
+        userRecord = User(
+            lastName=args.lastName,
+            email=args.email,
+            password=args.password,
+            firstName=args.firstName,
+            permissions=args.permissions)
+        self.db.session.add(userRecord)
+        self.db.session.commit()
+
 
 @app.route('/')
 def default():
     return "hello"
+
 @app.route('/viewAllUsers')
-def viewAllUsers():
+def getAllUsers():
     db = Database()
-    print('ciastko added')
-    users = db.get_users()
+    users = db.getAllUsers()
     return str(users)
+
 @app.route('/addDefaultUser')
 def addUser():
     db = Database()
-    db.add_user()
+    db.addUser({'lastName':'Ciastek','email':'ciastek@gmail.com','password':'admin','firstName':'Pan','permissions':'client'})
     return 'Commited!'

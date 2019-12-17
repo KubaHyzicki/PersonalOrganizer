@@ -1,4 +1,6 @@
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.login import LoginManager
+import werkzeug
 
 db = SQLAlchemy()
 
@@ -22,10 +24,16 @@ class User(db.Model):
                 setattr(self, key, data[key])
     
     def set_password(self, password):
-        self.password = generate_password_hash(password, method='sha256')
+        self.password = werkzeug.security.generate_password_hash(password, method='sha256')
+    
+    def print_hash(self, password):
+        return werkzeug.security.generate_password_hash(password, method='sha256')
+
+    def get_permissions(self):
+        return self.permissions
 
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+        return werkzeug.security.check_password_hash(self.password, password)
 
 class Event(db.Model):
     

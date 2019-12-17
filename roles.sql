@@ -1,9 +1,9 @@
-CREATE USER 'application_user'@'localhost' IDENTIFIED BY 'password_user';
+CREATE USER 'application_user'@'localhost' IDENTIFIED BY 'password';
 
 GRANT delete, select, insert, update ON * . * TO 'application_user'@'localhost';
 
 
 
-CREATE USER 'application_admin'@'localhost' IDENTIFIED BY 'password_admin';
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
 
-GRANT ALL PRIVILEGES ON * . * TO 'application_admin'@'localhost';
+GRANT ALL PRIVILEGES ON * . * TO 'admin'@'localhost';

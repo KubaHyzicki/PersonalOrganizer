@@ -57,6 +57,15 @@ CREATE TABLE AlarmType(
   arlarmMetchod VARCHAR(255)
 );
 
+
+
+
+
+
+
+
+
+
 DROP TRIGGER IF EXISTS CASCADE_DELETE_EVENT;
 
 DELIMITER $$

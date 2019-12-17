@@ -104,6 +104,33 @@ class Database:
         category.update(data)
         self.db.session.commit()
 
+############################---EventsCategories---############################
+    def addEventsCategory(self, args):
+        eventCategoryRecord = EventsCategories(
+            name=args.name,
+            description=args.description,
+            weight=args.weight,
+            colour=args.colour)
+        self.db.session.add(eventCategoryRecord)
+        self.db.session.commit()
+
+    def getAllEventsCategories(self):
+        eventsCategory = EventsCategories.query.all()
+        return str(eventsCategory)
+
+    def getEventsCategory(self, args):
+        eventsCategory = EventsCategories.query.get(args["ID_EventCategory"])
+        return eventsCategory
+
+    def removeEventsCategory(self, args):
+        EventsCategories.query.filter(EventsCategories.ID_EventCategory == args["ID_EventCategory"]).\
+            delete()
+
+    def editEventsCategory(self, data):
+        eventsCategory = EventsCategories.query.get(data["ID_EventCategory"])
+        eventsCategory.update(data)
+        self.db.session.commit()
+
 ############################---Alarm---############################
     def addAlarm(self, args):
         alarmRecord = Alarm(

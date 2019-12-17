@@ -52,7 +52,7 @@ class Category(db.Model):
     
     __tablename__='Category'
 
-    ID_categ = db.Column(db.Integer, primary_key=True, nullable=False)
+    ID_category = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=False)
     weight = db.Column(db.Integer, nullable=False)
@@ -60,11 +60,27 @@ class Category(db.Model):
 
     def update(self, data):
         for key in data:
-            if data[key] and key != "ID_categ":
+            if data[key] and key != "ID_category":
                 setattr(self, key, data[key])
 
     def __repr__(self):
         return "<Category {}>".format(self.name)
+
+class EventsCategories(db.Model):
+    
+    __tablename__='EventsCategories'
+
+    ID_EventCategory = db.Column(db.Integer, primary_key=True, nullable=False)
+    ID_category = db.Column(db.Integer, nullable=False)
+    ID_event = db.Column(db.Integer, nullable=False)
+
+    def update(self, data):
+        for key in data:
+            if data[key] and key != "ID_EventCategory":
+                setattr(self, key, data[key])
+
+    def __repr__(self):
+        return "<ID_category {} -> ID_event {}>".format(self.ID_category,self.ID_event)
 
 class Alarm(db.Model):
     

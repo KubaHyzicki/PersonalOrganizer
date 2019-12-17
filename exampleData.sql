@@ -18,7 +18,7 @@ Insert into  Category (name,description,alarm_id) values ('imprezy','imprezy tow
 Insert into  Event (name,status,description,participants,creationDate,date,repeatable,ID_user) values ('urodziny babci','niewykonane',null,null,STR_TO_date('18,05,2019','%d,%m,%Y'),STR_TO_date('18,06,2019','%d,%m,%Y'),null,'2');
 Insert into  Event (name,status,description,participants,creationDate,date,repeatable,ID_user) values ('urodziny dziadka','niewykonane',null,null,STR_TO_date('18,05,2019','%d,%m,%Y'),STR_TO_date('18,06,2019','%d,%m,%Y'),null,'3');
 
-Insert into  EventsCategories (ID_event,ID_categ) values ('2','2');
+Insert into  EventsCategories (ID_event,id_category) values ('2','2');
 
 Insert into  User (lastName,email,password,firstName,permissions) values ('makarena','makarenacosablena@kakaka.pl','makapaka','cosablena',null);
 Insert into  User (lastName,email,password,firstName,permissions) values ('jahas','jahas320@gov.pl','domino12345','domino',null);

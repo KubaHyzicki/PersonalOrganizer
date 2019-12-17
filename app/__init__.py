@@ -224,6 +224,7 @@ def login():
 @app.route('/logout')
 def logout():
     del db
+    db = Database()
 
 ############################---Api Endpoints---############################
 @app.route('/')

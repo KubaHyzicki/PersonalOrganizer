@@ -15,6 +15,8 @@ class User(db.Model):
     firstName = db.Column(db.String(255), nullable=False)
     permissions = db.Column(db.String(255), nullable=False)
 
+    authenticated = False
+
     def __repr__(self):
         return "<User {}:{}>".format(self.ID_user,self.email)
 
@@ -22,6 +24,9 @@ class User(db.Model):
         for key in data:
             if data[key] and key != "ID_user":
                 setattr(self, key, data[key])
+
+    def get_id(self):
+        return self.ID
     
     def set_password(self, password):
         self.password = werkzeug.security.generate_password_hash(password, method='sha256')
@@ -34,6 +39,15 @@ class User(db.Model):
 
     def check_password(self, password):
         return werkzeug.security.check_password_hash(self.password, password)
+
+    def is_authenticated(self):
+        return self.authenticated
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
 
 class Event(db.Model):
     

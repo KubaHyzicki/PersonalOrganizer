@@ -1,7 +1,15 @@
+# from .models import *
+from flask_sqlalchemy import SQLAlchemy
+# from models import *
+# import models
+# from . import models
 from .models import *
 
 class Database:
-    def __init__(self, app):
+#    def __init__(self):
+
+
+    def load(self,app):
         self.db = SQLAlchemy()
         self.db.init_app(app)
 
@@ -22,11 +30,11 @@ class Database:
 
     def getUser(self, args):
         try:
-            user = User.query.get(args["ID_user"])
+            user = User.query.get(args['ID_user'])
             return user
         except KeyError: pass
         try:
-            user = User.query.filter(User.email==args["email"]).first()
+            user = User.query.filter(User.email==args['email']).first()
             return user
         except KeyError: pass
         return None
@@ -175,3 +183,6 @@ class Database:
         alarmType = AlarmType.query.get(data["ID_alarmType"])
         alarmType.update(data)
         self.db.session.commit()
+
+
+database_obj = Database()

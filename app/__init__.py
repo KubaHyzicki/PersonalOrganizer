@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 
-from flask import Flask, request
+from flask import Flask, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-import flask_login
+from flask_login import LoginManager, login_required
 from .models import *
-from .routes import *
-from . import database
+from .database import *
 
 #app
 app = Flask(__name__)
-app.config.from_object('{}.Config'.format(config_name))
+app.secret_key = 'super secret key'
+app.config.from_object('config.Config')
 
 #flask-login
 login_manager = LoginManager()
@@ -17,52 +17,33 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 
 #database
-db = Database()
+database_obj.load(app)
+
+#routes
+from .routes import *
+app.register_blueprint(dbEndpoints)
+
 
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
-
-@login_manager.user_loader
-def user_loader(user_id):
-    return User.query.get(user_id)
+    return database_obj.getUser({'ID_user':user_id})
 
 @app.route('/login', methods=['POST'])
 def login():
     email = request.form['email']
     password = request.form['password']
-    user = db.getUser(email)
+    user = database_obj.getUser({'email':email}) 
     if user.check_password(password):
-        login_user(user)
-        return redirect(request.args.get("next"))
+        load_user(user)
+        if request.args.get("next"):
+            return redirect(next)
+        else:
+            return redirect(url_for('ciastkoTest'))
     else:
         return abort(401)
 
-
-
-    # email=request.form.get("email")
-    # password=request.form.get("password")
-
-    # loginDB = Database()
-    # loginDB.load('admin_config')
-    # user = loginDB.getUser({"email":email})
-
-    # if not user:
-    #     return "INCORRECT USERNAME"
-
-    # elif not user.check_password(password):
-    #     return "INCORRECT PASSWORD"
-    # else:
-    #     if user.get_permissions() == None:
-    #         user = app.config['CLIENT_DB_USER']
-    #         password = app.config['CLIENT_DB_PASS']
-    #     elif user.get_permissions() == 'admin':
-    #         user = app.config['ADMIN_DB_USER']
-    #         password = app.config['ADMIN_DB_PASS']
-    #     db.load(user, password)
-    #     return "logged as {}".format(user)
 
 @app.route("/logout")
 @login_required
@@ -71,18 +52,13 @@ def logout():
     return Response('<p>Logged out</p>')
     # return redirect('/')
 
-# @app.route('/logout')
-# def logout():
-#     del db
-#     db = Database()
-
-############################---Api Endpoints---############################
 @app.route('/')
 def default():
     return "hello"
 
-
-
+@app.route('/ciastkoTest')
+def ciastkoTest():
+    return "ciastkoTest successfull"
 
 @app.errorhandler(401)
 def page_not_found(e):

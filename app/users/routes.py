@@ -5,12 +5,12 @@ from app.database import *
 from . import users_routes
 
 
-############################---Reggistering---############################
+############################---Registering---############################
 @users_routes.route('/register', methods=['GET', 'POST'])
 def register():
 # not ready yet
 #     if request.method == 'GET':
-#         return render_template('users/login.html', form=form)
+#         return render_template('users/login.html')
 
     if current_user.is_authenticated:
         return 'already registered'
@@ -30,7 +30,7 @@ def login():
 
 # not ready yet
 #     if request.method == 'GET':
-#         return render_template('users/login.html', form=form)
+#         return render_template('users/login.html')
 
     email = request.form['email']
     password = request.form['password']

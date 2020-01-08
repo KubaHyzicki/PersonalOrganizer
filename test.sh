@@ -31,15 +31,16 @@ exit
 ############################---curls_to_use---############################
 curl -X POST 'http://127.0.0.1:5000/' -d '&'
 
-curl -X POST 'http://127.0.0.1:5000/addUser' -d "{'lastName':'Ciastek','email':'ciastek@gmail.com','password':'admin','firstName':'Pan','permissions':'client'}"
+curl -X POST 'http://127.0.0.1:5000/addUser' -d 'lastName=Ciastek3&email=ciastek3@gmail.com&password=admin&firstName=Pan&permissions=client'
 
 curl 'http://127.0.0.1:5000/getAllUsers'
 
-curl 'http://127.0.0.1:5000/getUser' -d "{'ID_user':'12'}"
+curl 'http://127.0.0.1:5000/getUser' -d 'ID_user=12'
 
-curl 'http://127.0.0.1:5000/removeUser' -d "{'ID_user':'12'}"
+curl 'http://127.0.0.1:5000/removeUser' -d 'ID_user=12'
 
-curl 'http://127.0.0.1:5000/editUser' -d {ID_user:12,password:newPass,firstName:newName}
+curl 'http://127.0.0.1:5000/editUser' -d 'ID_user=12&password=newPass&firstName=newName'
+
 curl 'http://127.0.0.1:5000/getAllEvents'
 
 curl 'http://127.0.0.1:5000/login' -d 'email=admin@admin.com&password=admin'

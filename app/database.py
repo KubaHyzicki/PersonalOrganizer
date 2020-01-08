@@ -9,24 +9,12 @@ class Database:
 ############################---User---############################
     def addUser(self, args):
         userRecord = User(
-            lastName=args.lastName,
-            email=args.email,
-            firstName=args.firstName,
-            permissions=args.permissions)
-        userRecord.set_password(args.password)
+            lastName=args['lastName'],
+            email=args["email"],
+            firstName=args["firstName"],
+            permissions=args["permissions"])
+        userRecord.set_password(args["password"])
         self.db.session.add(userRecord)
-        self.db.session.commit()
-
-    def loginUser(self, args):
-        email = args.email
-        user = getUser({'email':email})
-        user.update({'authenticated':True})
-        self.db.session.commit()
-
-    def logoutUser(self, args):
-        email = args.email
-        user = getUser({'email':email})
-        user.update({'authenticated':False})
         self.db.session.commit()
 
     def getAllUsers(self):
@@ -56,13 +44,13 @@ class Database:
 ############################---Event---############################
     def addEvent(self, args):
         eventRecord = Event(
-            name=args.name,
-            status=args.status,
-            description=args.description,
-            participants=args.participants,
-            creationDate=args.creationDate,
-            repeatable=args.repeatable,
-            ID_user=args.ID_user)
+            name=args["name"],
+            status=args["status"],
+            description=args["description"],
+            participants=args["participants"],
+            creationDate=args["creationDate"],
+            repeatable=args["repeatable"],
+            ID_user=args["ID_user"])
         self.db.session.add(eventRecord)
         self.db.session.commit()
 
@@ -86,10 +74,10 @@ class Database:
 ############################---Category---############################
     def addCategory(self, args):
         categoryRecord = Category(
-            name=args.name,
-            description=args.description,
-            weight=args.weight,
-            colour=args.colour)
+            name=args["name"],
+            description=args["description"],
+            weight=args["weight"],
+            colour=args["colour"])
         self.db.session.add(categoryRecord)
         self.db.session.commit()
 
@@ -113,10 +101,10 @@ class Database:
 ############################---EventsCategories---############################
     def addEventsCategory(self, args):
         eventCategoryRecord = EventsCategories(
-            name=args.name,
-            description=args.description,
-            weight=args.weight,
-            colour=args.colour)
+            name=args["name"],
+            description=args["description"],
+            weight=args["weight"],
+            colour=args["colour"])
         self.db.session.add(eventCategoryRecord)
         self.db.session.commit()
 
@@ -140,11 +128,11 @@ class Database:
 ############################---Alarm---############################
     def addAlarm(self, args):
         alarmRecord = Alarm(
-            volume_level=args.volume_level,
-            active=args.active,
-            whenAlarm=args.whenAlarm,
-            alarmMethod=args.alarmMethod,
-            ID_event=args.ID_event)
+            volume_level=args["volume_level"],
+            active=args["active"],
+            whenAlarm=args["whenAlarm"],
+            alarmMethod=args["alarmMethod"],
+            ID_event=args["ID_event"])
         self.db.session.add(alarmRecord)
         self.db.session.commit()
 
@@ -168,7 +156,7 @@ class Database:
 ############################---AlarmType---############################
     def addAlarmType(self, args):
         alarmTypeRecord = AlarmType(
-            alarmMethod=args.alarmMethod)
+            alarmMethod=args["alarmMethod"])
         self.db.session.add(alarmTypeRecord)
         self.db.session.commit()
 

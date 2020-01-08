@@ -3,6 +3,7 @@
 from flask import Flask, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required
+
 from .models import *
 from .database import *
 
@@ -15,6 +16,12 @@ app.config.from_object('config.Config')
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "users_routes.login"
+@login_manager.user_loader
+def load_user(user_id):
+    try:
+        return User.query.get(user_id)
+    except:
+        return None
 
 #database
 database_obj.load(app)
@@ -26,16 +33,6 @@ app.register_blueprint(users_routes)
 
 
 #basic route, no reason to move it to separate blueprints as it is standalone thing without login requirement
-
-@login_manager.user_loader
-def load_user(user_id):
-    return database_obj.getUser({'ID_user':user_id})
-
-
 @app.route('/')
 def default():
     return "hello"
-
-# @app.errorhandler(401)
-# def page_not_found(e):
-#     return Response('<p>Login failed</p>')

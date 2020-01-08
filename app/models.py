@@ -15,8 +15,6 @@ class User(db.Model):
     firstName = db.Column(db.String(255), nullable=False)
     permissions = db.Column(db.String(255), nullable=False)
 
-    authenticated = False
-
     def __repr__(self):
         return "<User {}:{}>".format(self.ID_user,self.email)
 
@@ -41,7 +39,7 @@ class User(db.Model):
         return werkzeug.security.check_password_hash(self.password, password)
 
     def is_authenticated(self):
-        return self.authenticated
+        return self._authenticated
 
     def is_active(self):
         return True

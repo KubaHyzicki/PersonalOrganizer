@@ -1,14 +1,7 @@
-# from .models import *
 from flask_sqlalchemy import SQLAlchemy
-# from models import *
-# import models
-# from . import models
 from .models import *
 
 class Database:
-#    def __init__(self):
-
-
     def load(self,app):
         self.db = SQLAlchemy()
         self.db.init_app(app)
@@ -22,6 +15,18 @@ class Database:
             permissions=args.permissions)
         userRecord.set_password(args.password)
         self.db.session.add(userRecord)
+        self.db.session.commit()
+
+    def loginUser(self, args):
+        email = args.email
+        user = getUser({'email':email})
+        user.update({'authenticated':True})
+        self.db.session.commit()
+
+    def logoutUser(self, args):
+        email = args.email
+        user = getUser({'email':email})
+        user.update({'authenticated':False})
         self.db.session.commit()
 
     def getAllUsers(self):

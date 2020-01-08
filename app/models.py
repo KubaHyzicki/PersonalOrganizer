@@ -26,7 +26,7 @@ class User(db.Model):
                 setattr(self, key, data[key])
 
     def get_id(self):
-        return self.ID
+        return self.ID_user
     
     def set_password(self, password):
         self.password = werkzeug.security.generate_password_hash(password, method='sha256')

@@ -71,6 +71,10 @@ class Database:
         event.update(data)
         self.db.session.commit()
 
+    def getUserEvents(self, data):
+        events = Event.query.filter(Event.ID_user == data["ID_user"]).all()
+        return events
+
 ############################---Category---############################
     def addCategory(self, args):
         categoryRecord = Category(

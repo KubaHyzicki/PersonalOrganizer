@@ -47,7 +47,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return Response('Logged out')
+    return "Logged out"
 
 @users_routes.route('/testLogin')
 @login_required
@@ -115,6 +115,12 @@ def removeEvent():
 def editEvent():
     database_obj.editEvent(request.form.to_dict())
     return 'Commited!'
+
+@users_routes.route('/getUserEvents', methods=['POST'])
+@login_required
+def getUserEvents():
+    event = database_obj.getUserEvents({'ID_user':current_user.get_id()})
+    return str(event)
 
 ############################---Category---############################
 @users_routes.route('/addCategory', methods=['POST'])

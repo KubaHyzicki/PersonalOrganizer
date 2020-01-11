@@ -12,16 +12,22 @@ echo & echo 'test to fail' & echo
 curl 'http://127.0.0.1:5000/testLogin'
 sleep 1
 echo & echo 'login' & echo
-curl 'http://127.0.0.1:5000/login' -d 'email=benek@sad.ss&password=benek2000' --cookie-jar ./cookie
+curl 'http://127.0.0.1:5000/login' -d 'email=jahas320@gov.pl&password=domino12345' --cookie-jar ./cookie
 sleep 1
-echo & echo 'loginAgain?' & echo
-curl 'http://127.0.0.1:5000/login' -d 'email=benek@sad.ss&password=benek2000' --cookie ./cookie
+echo & echo 'login again?' & echo
+curl 'http://127.0.0.1:5000/login' -d 'email=jahas320@gov.pl&password=domino12345' --cookie ./cookie
 sleep 1
 echo & echo 'check' & echo
 curl 'http://127.0.0.1:5000/testLogin' --cookie ./cookie
 sleep 1
+echo & echo 'get current user events' & echo
+curl 'http://127.0.0.1:5000/getUserEvents' -d 'ID_user=2' --cookie ./cookie
+sleep 1
 echo & echo 'print users' & echo
 curl 'http://127.0.0.1:5000/getAllUsers' --cookie ./cookie
+sleep 1
+echo & echo 'logout' & echo
+curl 'http://127.0.0.1:5000/logout' --cookie ./cookie
 sleep 1
 kill `ps aux | grep -i flask | grep python | sed -E 's/([a-z]+ *)([0-9]+)(.*)/\2/g'`
 

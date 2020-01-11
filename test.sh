@@ -21,7 +21,7 @@ echo & echo 'check' & echo
 curl 'http://127.0.0.1:5000/testLogin' --cookie ./cookie
 sleep 1
 echo & echo 'get current user events' & echo
-curl 'http://127.0.0.1:5000/getUserEvents' -d 'ID_user=2' --cookie ./cookie
+curl 'http://127.0.0.1:5000/getUserEvents' --cookie ./cookie
 sleep 1
 echo & echo 'print users' & echo
 curl 'http://127.0.0.1:5000/getAllUsers' --cookie ./cookie

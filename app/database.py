@@ -1,10 +1,13 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 from .models import *
 
 class Database:
     def load(self,app):
         self.db = SQLAlchemy()
         self.db.init_app(app)
+        with app.app_context():
+            db.create_all()
 
 ############################---User---############################
     def addUser(self, args):
@@ -27,13 +30,13 @@ class Database:
             return user
         except KeyError: pass
         try:
-            user = User.query.filter(User.email==args['email']).first()
+            user = self.db.session.query(User).filter(User.email==args['email']).first()
             return user
         except KeyError: pass
         return None
 
     def removeUser(self, args):
-        User.query.filter(User.ID_user == args["ID_user"]).\
+        self.db.session.query(User).filter(User.ID_user == args["ID_user"]).\
             delete()
 
     def editUser(self, data):
@@ -48,11 +51,12 @@ class Database:
             status=args["status"],
             description=args["description"],
             participants=args["participants"],
-            creationDate=args["creationDate"],
+            creationDate=datetime.strptime(args["creationDate"],'%d-%m-%Y'),
             repeatable=args["repeatable"],
             ID_user=args["ID_user"])
         self.db.session.add(eventRecord)
         self.db.session.commit()
+        self.db.session.rollback()
 
     def getAllEvents(self):
         events = Event.query.all()
@@ -63,7 +67,7 @@ class Database:
         return event
 
     def removeEvent(self, args):
-        Event.query.filter(Event.ID_event == args["ID_event"]).\
+        self.db.session.query(Event).filter(Event.ID_event == args["ID_event"]).\
             delete()
 
     def editEvent(self, data):
@@ -72,7 +76,7 @@ class Database:
         self.db.session.commit()
 
     def getUserEvents(self, data):
-        events = Event.query.filter(Event.ID_user == data["ID_user"]).all()
+        events = self.db.session.query(Event).filter(Event.ID_user == data["ID_user"]).all()
         return events
 
 ############################---Category---############################
@@ -94,7 +98,7 @@ class Database:
         return category
 
     def removeCategory(self, args):
-        Category.query.filter(Category.ID_category == args["ID_category"]).\
+        self.db.session.query(Category).filter(Category.ID_category == args["ID_category"]).\
             delete()
 
     def editCategory(self, data):
@@ -121,7 +125,7 @@ class Database:
         return eventsCategory
 
     def removeEventsCategory(self, args):
-        EventsCategories.query.filter(EventsCategories.ID_EventCategory == args["ID_EventCategory"]).\
+        self.db.session.query(EventsCategories).filter(EventsCategories.ID_EventCategory == args["ID_EventCategory"]).\
             delete()
 
     def editEventsCategory(self, data):
@@ -149,7 +153,7 @@ class Database:
         return alarm
 
     def removeAlarm(self, args):
-        Alarm.query.filter(Alarm.ID_alarm == args["ID_alarm"]).\
+        self.db.session.query(Alarm).filter(Alarm.ID_alarm == args["ID_alarm"]).\
             delete()
 
     def editAlarm(self, data):
@@ -173,7 +177,7 @@ class Database:
         return alarmType
 
     def removeAlarmType(self, args):
-        AlarmType.query.filter(AlarmType.ID_alarmType == args["ID_alarmType"]).\
+        self.db.session.query(AlarmType).filter(AlarmType.ID_alarmType == args["ID_alarmType"]).\
             delete()
 
     def editAlarmType(self, data):

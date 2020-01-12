@@ -122,8 +122,8 @@ def editEvent():
 @users_routes.route('/getUserEvents', methods=['GET'])
 @login_required
 def getUserEvents():
-    event = database_obj.getUserEvents({'ID_user':current_user.get_id()})
-    return str(event)
+    events = database_obj.getUserEvents({'ID_user':current_user.get_id()})
+    return str(events)
 
 ############################---Category---############################
 @users_routes.route('/addCategory', methods=['POST'])

@@ -15,8 +15,8 @@ class User(db.Model):
     firstName = db.Column(db.String(255), nullable=False)
     permissions = db.Column(db.String(255), nullable=False)
 
-    # def __repr__(self):
-    #     return "<User {}:{}>".format(self.ID_user,self.email)
+    def __repr__(self):
+        return "<User {}:{}>".format(self.ID_user,self.email)
 
     def update(self, data):
         for key in data:
@@ -65,8 +65,8 @@ class Event(db.Model):
             if data[key] and key != "ID_event":
                 setattr(self, key, data[key])
 
-    # def __repr__(self):
-    #     return "<Event {}>".format(self.name)
+    def __repr__(self):
+        return "<Event {}:{}>".format(self,ID_event,self.name)
 
 class Category(db.Model):
     
@@ -83,8 +83,8 @@ class Category(db.Model):
             if data[key] and key != "ID_category":
                 setattr(self, key, data[key])
 
-    # def __repr__(self):
-    #     return "<Category {}>".format(self.name)
+    def __repr__(self):
+        return "<Category {}>".format(self.name)
 
 class EventsCategories(db.Model):
     
@@ -99,8 +99,8 @@ class EventsCategories(db.Model):
             if data[key] and key != "ID_EventCategory":
                 setattr(self, key, data[key])
 
-    # def __repr__(self):
-    #     return "<ID_category {} -> ID_event {}>".format(self.ID_category,self.ID_event)
+    def __repr__(self):
+        return "<ID_category {} -> ID_event {}>".format(self.ID_category,self.ID_event)
 
 class Alarm(db.Model):
     
@@ -118,8 +118,8 @@ class Alarm(db.Model):
             if data[key] and key != "ID_alarm":
                 setattr(self, key, data[key])
 
-    # def __repr__(self):
-    #     return "<Alarm {} (id={})>".format(self.whenAlarm, self.ID_alarm)
+    def __repr__(self):
+        return "<Alarm {} (id={})>".format(self.whenAlarm, self.ID_alarm)
 
 class AlarmType(db.Model):
     
@@ -131,8 +131,8 @@ class AlarmType(db.Model):
         for key in data:
             setattr(self, key, data[key])
 
-    # def __repr__(self):
-    #     return "<AlarmType {}>".format(self.alarmMethod)
+    def __repr__(self):
+        return "<AlarmType {}>".format(self.alarmMethod)
 
 
 def query_to_list(query, include_field_names=True):

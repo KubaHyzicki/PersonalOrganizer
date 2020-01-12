@@ -49,7 +49,6 @@ class Database:
             name=args["name"],
             status=args["status"],
             description=args["description"],
-            description=args["description"],
             creationDate=args["creationDate"],
             repeatable=args["repeatable"],
             ID_user=args["ID_user"])

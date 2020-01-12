@@ -116,7 +116,7 @@ def editEvent():
     database_obj.editEvent(request.form.to_dict())
     return 'Commited!'
 
-@users_routes.route('/getUserEvents', methods=['POST'])
+@users_routes.route('/getUserEvents', methods=['GET'])
 @login_required
 def getUserEvents():
     event = database_obj.getUserEvents({'ID_user':current_user.get_id()})

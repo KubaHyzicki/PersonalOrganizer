@@ -86,10 +86,13 @@ def editUser():
     return 'Commited!'
 
 ############################---Event---############################
-@users_routes.route('/addEvent', methods=['POST'])
+@users_routes.route('/addEvent', methods=['POST','GET'])
 @login_required
 def addEvent():
-    database_obj.addEvent(request.form.to_dict())
+    data=request.form.to_dict();
+    if not "ID_user" in data:
+        data["ID_user"]=current_user.get_id()
+    database_obj.addEvent(data)
     return 'Commited!'
 
 @users_routes.route('/getAllEvents')

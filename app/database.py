@@ -1,5 +1,4 @@
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 from .models import *
 
 class Database:
@@ -50,8 +49,8 @@ class Database:
             name=args["name"],
             status=args["status"],
             description=args["description"],
-            participants=args["participants"],
-            creationDate=datetime.strptime(args["creationDate"],'%d-%m-%Y'),
+            description=args["description"],
+            creationDate=args["creationDate"],
             repeatable=args["repeatable"],
             ID_user=args["ID_user"])
         self.db.session.add(eventRecord)

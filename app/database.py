@@ -75,7 +75,7 @@ class Database:
 
     def getUserEvents(self, data):
         events = self.db.session.query(Event).filter(Event.ID_user == data["ID_user"]).all()
-        return events
+        return str(events)
 
 ############################---Category---############################
     def addCategory(self, args):

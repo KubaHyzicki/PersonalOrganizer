@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+
 from .models import *
 
 class Database:
@@ -20,8 +21,9 @@ class Database:
         self.db.session.commit()
 
     def getAllUsers(self):
-        users = User.query.all()
-        return users
+        users = User.query
+        result_dict = [u.__dict__ for u in users.all()]
+        return result_dict
 
     def getUser(self, args):
         try:
@@ -57,8 +59,9 @@ class Database:
         self.db.session.rollback()
 
     def getAllEvents(self):
-        events = Event.query.all()
-        return str(events)
+        events = Event.query
+        result_dict = [u.__dict__ for u in events.all()]
+        return result_dict
 
     def getEvent(self, args):
         event = Event.query.get(args["ID_event"])
@@ -74,11 +77,9 @@ class Database:
         self.db.session.commit()
 
     def getUserEvents(self, data):
-        events = self.db.session.query(Event).filter(Event.ID_user == data["ID_user"]).all()
-        array=[]
-        for event in events:
-            array+=[event.ID_event,event.name,event.status,event.description,event.participants,event.creationDate,event.repeatable,event.ID_user]
-        return array
+        events = self.db.session.query(Event).filter(Event.ID_user == data["ID_user"])
+        result_dict = [u.__dict__ for u in events.all()]
+        return result_dict
 
 ############################---Category---############################
     def addCategory(self, args):

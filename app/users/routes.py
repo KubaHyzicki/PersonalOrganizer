@@ -23,7 +23,7 @@ def register():
     return 'Successfully registered, now You can log in'
 
 ############################---Logging---############################
-@users_routes.route('/login', methods=['GET', 'POST'])
+@users_routes.route('/login', methods=['POST'])
 def login():
     if current_user.is_authenticated:
         return 'already logged in'
